@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resume Builder</title>
+    <!-- Bootstrap 4 CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css"
+    />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <style>
+      /* Custom Styles */
+      body {
+        background-color: #f5f5f5;
+      }
+      .resume-builder {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .section-card {
+        margin-bottom: 20px;
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      .preview-container {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        border: 1px solid #ddd;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        background-color: white;
+      }
+      .resume-preview {
+        position: relative;
+        width: 100%;
+        min-height: 1000px;
+      }
+      .resume-sidebar {
+        position: absolute;
+        width: 35%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        padding: 20px;
+        color: white;
+      }
+      .resume-content {
+        position: absolute;
+        width: 65%;
+        height: 100%;
+        right: 0;
+        top: 0;
+        padding: 20px;
+      }
+      .profile-img-container {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: 0 auto;
+        border: 5px solid white;
+      }
+      .profile-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .contact-info {
+        margin-top: 20px;
+      }
+      .contact-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+      .contact-icon {
+        margin-right: 10px;
+      }
+      .contact-text {
+        word-break: break-word;
+      }
+      .section-title {
+        padding: 10px;
+        margin-bottom: 15px;
+        color: white;
+      }
+      .skill-item,
+      .experience-item {
+        margin-bottom: 10px;
+      }
+      .vertical-timeline {
+        position: absolute;
+        left: 30px;
+        top: 0;
+        height: 100%;
+        width: 2px;
+        background-color: #ddd;
+      }
+      .color-picker-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .color-picker {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 2px solid transparent;
+      }
+      .color-picker.active {
+        border-color: black;
+      }
+      .color-picker-label {
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      .extra-section {
+        margin-bottom: 20px;
+      }
+      .delete-btn {
+        color: red;
+        cursor: pointer;
+      }
+      .social-links {
+        margin-top: 10px;
+        display: flex;
+        gap: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid resume-builder py-4">
+      <h1 class="text-center mb-4">Resume Builder</h1>
+
+      <div class="row">
+        <!-- Form Section -->
+        <div class="col-lg-6 mb-4">
+          <div class="accordion" id="resumeForm">
+            <!-- Personal Information -->
+            <div class="section-card">
+              <div
+                class="card-header bg-primary text-white"
+                id="personalInfoHeader"
+              >
+                <h2 class="mb-0">
+                  <button
+                    class="btn btn-link text-white"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#personalInfo"
+                    aria-expanded="true"
+                    aria-controls="personalInfo"
+                  >
+                    Personal Information
+                  </button>
+                </h2>
+              </div>
+              <div
+                id="personalInfo"
+                class="collapse show"
+                aria-labelledby="personalInfoHeader"
+                data-parent="#resumeForm"
+              >
+                <div class="card-body">
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="firstName">First Name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="firstName"
+                        placeholder="First Name"
+                      />
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="lastName">Last Name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="lastName"
+                        placeholder="Last Name"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="title">Professional Title</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="title"
+                      placeholder="e.g. High School Student"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="objective">Objective</label>
+                    <textarea
+                      class="form-control"
+                      id="objective"
+                      rows="3"
+                      placeholder="Brief description of your career goals"
+                    ></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="profileImage">Profile Image</label>
+                    <input
+                      type="file"
+                      class="form-control-file"
+                      id="profileImage"
+                      accept="image/*"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="section-card">
+              <div
+                class="card-header bg-primary text-white"
+                id="contactInfoHeader"
+              >
+                <h2 class="mb-0">
+                  <button
+                    class="btn btn-link text-white"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#contactInfo"
+                    aria-expanded="false"
+                    aria-controls="contactInfo"
+                  >
+                    Contact Information
+                  </button>
+                </h2>
+              </div>
+              <div
+                id="contactInfo"
+                class="collapse"
+                aria-labelledby="contactInfoHeader"
+                data-parent="#resumeForm"
+              >
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input
+                      type="tel"
+                      class="form-control"
+                      id="phone"
+                      placeholder="e.g. 123-456-7890"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="email"
+                      placeholder="e.g. name@example.com"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="address">Address</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="address"
+                      placeholder="Street Address"
+                    />
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="city">City</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="city"
+                        placeholder="City"
+                      />
+                    </div>
+                    <div class="form-group col-md-4">
+                      <label for="state">State</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="state"
+                        placeholder="State"
+                      />
+                    </div>
+                    <div class="form-group col-md-2">
+                      <label for="zip">Zip</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="zip"
+                        placeholder="Zip"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="socialMedia">Social Media</label>
+                    <div class="input-group mb-2">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"
+                          ><i class="fab fa-linkedin"></i
+                        ></span>
+                      </div>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="linkedin"
+                        placeholder="LinkedIn Username"
+                      />
+                    </div>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"
+                          ><i class="fab fa-twitter"></i
+                        ></span>
+                      </div>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="twitter"
+                        placeholder="Twitter Username"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Education -->
+            <div class="section-card">
+              <div
+                class="card-header bg-primary text-white"
+                id="educationHeader"
+              >
+                <h2 class="mb-0">
+                  <button
+                    class="btn btn-link text-white"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#education"
+                    aria-expanded="false"
+                    aria-controls="education"
+                  >
+                    Education
+                  </button>
+                </h2>
+              </div>
+              <div
+                id="education"
+                class="collapse"
+                aria-labelledby="educationHeader"
+                data-parent="#resumeForm"
+              >
+                <div class="card-body">
+                  <div id="educationItems">
+                    <div class="education-item border-bottom pb-3 mb-3">
+                      <div class="form-group">
+                        <label>School Name</label>
+                        <input
+                          type="text"
+                          class="form-control education-school"
+                          placeholder="e.g. XYZ High School"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label>Location</label>
+                        <input
+                          type="text"
+                          class="form-control education-location"
+                          placeholder="e.g. Anytown, USA"
+                        />
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label>Start Date</label>
+                          <input
+                            type="text"
+                            class="form-control education-start"
+                            placeholder="e.g. September 2021"
+                          />
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label>End Date</label>
+                          <input
+                            type="text"
+                            class="form-control education-end"
+                            placeholder="e.g. June 2025 or Present"
+                          />
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>Degree/Diploma</label>
+                        <input
+                          type="text"
+                          class="form-control education-degree"
+                          placeholder="e.g. High School Diploma"
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-danger remove-education"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    id="addEducation"
+                    class="btn btn-success"
+                  >
+                    Add Education
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Work Experience -->
+            <div class="section-card">
+              <div class="card-header bg-primary text-white" id="workExpHeader">
+                <h2 class="mb-0">
+                  <button
+                    class="btn btn-link text-white"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#workExp"
+                    aria-expanded="false"
+                    aria-controls="workExp"
+                  >
+                    Work Experience
+                  </button>
+                </h2>
+              </div>
+              <div
+                id="workExp"
+                class="collapse"
+                aria-labelledby="workExpHeader"
+                data-parent="#resumeForm"
+              >
+                <div class="card-body">
+                  <div id="workExpItems">
+                    <div class="work-exp-item border-bottom pb-3 mb-3">
+                      <div class="form-group">
+                        <label>Job Title</label>
+                        <input
+                          type="text"
+                          class="form-control work-title"
+                          placeholder="e.g. Sales Associate"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label>Company/Organization</label>
+                        <input
+                          type="text"
+                          class="form-control work-company"
+                          placeholder="e.g. ABC Clothing Store"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label>Location</label>
+                        <input
+                          type="text"
+                          class="form-control work-location"
+                          placeholder="e.g. Anytown, USA"
+                        />
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label>Start Date</label>
+                          <input
+                            type="text"
+                            class="form-control work-start"
+                            placeholder="e.g. June 2024"
+                          />
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label>End Date</label>
+                          <input
+                            type="text"
+                            class="form-control work-end"
+                            placeholder="e.g. Present"
+                          />
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>Job Description</label>
+                        <textarea
+                          class="form-control work-description"
+                          rows="3"
+                          placeholder="Describe your responsibilities and achievements"
+                        ></textarea>
+                      </div>
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-danger remove-work"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                  <button type="button" id="addWorkExp" class="btn btn-success">
+                    Add Work Experience
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Skills -->
+            <div class="section-card">
+              <div class="card-header bg-primary text-white" id="skillsHeader">
+                <h2 class="mb-0">
+                  <button
+                    class="btn btn-link text-white"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#skills"
+                    aria-expanded="false"
+                    aria-controls="skills"
+                  >
+                    Skills
+                  </button>
+                </h2>
+              </div>
+              <div
+                id="skills"
+                class="collapse"
+                aria-labelledby="skillsHeader"
+                data-parent="#resumeForm"
+              >
+                <div class="card-body">
+                  <div id="skillItems">
+                    <div class="skill-item-form mb-2">
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          class="form-control skill-input"
+                          placeholder="e.g. Programming Languages: Java, Python, HTML, CSS"
+                        />
+                        <div class="input-group-append">
+                          <button
+                            class="btn btn-danger remove-skill"
+                            type="button"
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <button type="button" id="addSkill" class="btn btn-success">
+                    Add Skill
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Extracurricular Activities -->
+            <div class="section-card">
+              <div
+                class="card-header bg-primary text-white"
+                id="extracurricularHeader"
+              >
+                <h2 class="mb-0">
+                  <button
+                    class="btn btn-link text-white"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#extracurricular"
+                    aria-expanded="false"
+                    aria-controls="extracurricular"
+                  >
+                    Extracurricular Activities
+                  </button>
+                </h2>
+              </div>
+              <div
+                id="extracurricular"
+                class="collapse"
+                aria-labelledby="extracurricularHeader"
+                data-parent="#resumeForm"
+              >
+                <div class="card-body">
+                  <div id="activityItems">
+                    <div class="activity-item border-bottom pb-3 mb-3">
+                      <div class="form-group">
+                        <label>Activity Name</label>
+                        <input
+                          type="text"
+                          class="form-control activity-name"
+                          placeholder="e.g. Robotics Club"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label>Role/Position</label>
+                        <input
+                          type="text"
+                          class="form-control activity-role"
+                          placeholder="e.g. President"
+                        />
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label>Start Date</label>
+                          <input
+                            type="text"
+                            class="form-control activity-start"
+                            placeholder="e.g. 2023"
+                          />
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label>End Date</label>
+                          <input
+                            type="text"
+                            class="form-control activity-end"
+                            placeholder="e.g. 2025"
+                          />
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>Description</label>
+                        <textarea
+                          class="form-control activity-description"
+                          rows="2"
+                          placeholder="Describe your responsibilities and achievements"
+                        ></textarea>
+                      </div>
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-danger remove-activity"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    id="addActivity"
+                    class="btn btn-success"
+                  >
+                    Add Activity
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Additional Sections -->
+            <div class="section-card">
+              <div
+                class="card-header bg-primary text-white"
+                id="additionalSectionsHeader"
+              >
+                <h2 class="mb-0">
+                  <button
+                    class="btn btn-link text-white"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#additionalSections"
+                    aria-expanded="false"
+                    aria-controls="additionalSections"
+                  >
+                    Additional Sections
+                  </button>
+                </h2>
+              </div>
+              <div
+                id="additionalSections"
+                class="collapse"
+                aria-labelledby="additionalSectionsHeader"
+                data-parent="#resumeForm"
+              >
+                <div class="card-body">
+                  <div id="extraSections">
+                    <!-- Extra sections will be added here -->
+                  </div>
+                  <div class="form-group">
+                    <label for="sectionTitle">New Section Title</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="sectionTitle"
+                      placeholder="e.g. Projects, Certificates, Languages"
+                    />
+                  </div>
+                  <button type="button" id="addSection" class="btn btn-success">
+                    Add Section
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Color Customization -->
+            <div class="section-card">
+              <div
+                class="card-header bg-primary text-white"
+                id="colorCustomizationHeader"
+              >
+                <h2 class="mb-0">
+                  <button
+                    class="btn btn-link text-white"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#colorCustomization"
+                    aria-expanded="false"
+                    aria-controls="colorCustomization"
+                  >
+                    Color Customization
+                  </button>
+                </h2>
+              </div>
+              <div
+                id="colorCustomization"
+                class="collapse"
+                aria-labelledby="colorCustomizationHeader"
+                data-parent="#resumeForm"
+              >
+                <div class="card-body">
+                  <div class="form-group">
+                    <label class="color-picker-label"
+                      >Primary Color (Sidebar)</label
+                    >
+                    <div class="color-picker-container primary-colors">
+                      <div
+                        class="color-picker active"
+                        style="background-color: #b05e54"
+                        data-color="#B05E54"
+                      ></div>
+                      <div
+                        class="color-picker"
+                        style="background-color: #2c3e50"
+                        data-color="#2C3E50"
+                      ></div>
+                      <div
+                        class="color-picker"
+                        style="background-color: #27ae60"
+                        data-color="#27AE60"
+                      ></div>
+                      <div
+                        class="color-picker"
+                        style="background-color: #3498db"
+                        data-color="#3498DB"
+                      ></div>
+                      <div
+                        class="color-picker"
+                        style="background-color: #8e44ad"
+                        data-color="#8E44AD"
+                      ></div>
+                      <div
+                        class="color-picker"
+                        style="background-color: #e74c3c"
+                        data-color="#E74C3C"
+                      ></div>
+                      <div
+                        class="color-picker"
+                        style="background-color: #f39c12"
+                        data-color="#F39C12"
+                      ></div>
+                      <div
+                        class="color-picker"
+                        style="background-color: #1abc9c"
+                        data-color="#1ABC9C"
+                      ></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="color-picker-label"
+                      >Secondary Color (Section Titles)</label
+                    >
+                    <div class="color-picker-container secondary-colors">
+                      <div
+                        class="color-picker active"
+                        style="background-color: #6d372f"
+                        data-color="#6D372F"
+                      ></div>
+                      <div
+                        class="color-picker"
+                        style="background-color: #1a252f"
+                        data-color="#1A252F"
+                      ></div>
+                      <div
+                        class="color-picker"
+                        style="background-color: #186a3b"
+                        data-color="#186A3B"
+                      ></div>
+                      <div
+                        class="color-picker"
+                        style="background-color: #1f618d"
+                        data-color="#1F618D"
+                      ></div>
+                      <div
+                        class="color-picker"
+                        style="background-color: #5b2c6f"
+                        data-color="#5B2C6F"
+                      ></div>
+                      <div
+                        class="color-picker"
+                        style="background-color: #943126"
+                        data-color="#943126"
+                      ></div>
+                      <div
+                        class="color-picker"
+                        style="background-color: #9a7d0a"
+                        data-color="#9A7D0A"
+                      ></div>
+                      <div
+                        class="color-picker"
+                        style="background-color: #117a65"
+                        data-color="#117A65"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Generate Resume Button -->
+            <div class="text-center my-4">
+              <button id="generateBtn" class="btn btn-primary btn-lg">
+                Generate Resume
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Preview Section -->
+        <div class="col-lg-6">
+          <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+              <h3 class="mb-0">Preview</h3>
+            </div>
+            <div class="card-body p-0">
+              <div class="preview-container">
+                <div class="resume-preview" id="resumePreview">
+                  <div class="resume-sidebar" style="background-color: #b05e54">
+                    <div class="profile-img-container mb-3">
+                      <img
+                        src="/api/placeholder/150/150"
+                        alt="Profile"
+                        class="profile-img"
+                        id="previewImage"
+                      />
+                    </div>
+
+                    <div class="contact-info">
+                      <div class="contact-item">
+                        <div class="contact-icon">
+                          <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-text" id="previewPhone">
+                          210-788-8829
+                        </div>
+                      </div>
+                      <div class="contact-item">
+                        <div class="contact-icon">
+                          <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-text" id="previewEmail">
+                          name@companyname.com
+                        </div>
+                      </div>
+                      <div class="contact-item">
+                        <div class="contact-icon">
+                          <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-text" id="previewAddress">
+                          108 N Platinum Ave<br />Deming, NY 88030
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="education-section mt-4">
+                      <h4
+                        class="section-title"
+                        style="background-color: #6d372f"
+                      >
+                        Education
+                      </h4>
+                      <div id="previewEducation">
+                        <div class="mb-3">
+                          <strong>XYZ High School, Anytown, USA</strong><br />
+                          Expected Graduation Year: June 2025
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="skills-section mt-4">
+                      <h4
+                        class="section-title"
+                        style="background-color: #6d372f"
+                      >
+                        Personal Skills
+                      </h4>
+                      <ul id="previewSkills">
+                        <li>Programming Languages: Java, Python, HTML, CSS</li>
+                        <li>
+                          Software: Microsoft Office Suite (Word, Excel,
+                          PowerPoint)
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div class="social-links" id="previewSocial">
+                      <a href="#"><i class="fab fa-linkedin fa-lg"></i></a>
+                      <a href="#"><i class="fab fa-twitter fa-lg"></i></a>
+                    </div>
+                  </div>
+
+                  <div class="resume-content">
+                    <h1 class="text-center mb-1" id="previewName">Your Name</h1>
+                    <h4 class="text-center text-muted mb-4" id="previewTitle">
+                      Education
+                    </h4>
+
+                    <div class="objective-section mb-4">
+                      <h4
+                        class="section-title"
+                        style="background-color: #6d372f"
+                      >
+                        Objective:
+                      </h4>
+                      <p id="previewObjective">
+                        Motivated high school student with a passion for
+                        computer science seeking an internship opportunity to
+                        further develop technical skills and contribute to a
+                        dynamic team.
+                      </p>
+                    </div>
+
+                    <div class="work-experience-section mb-4">
+                      <h4
+                        class="section-title"
+                        style="background-color: #6d372f"
+                      >
+                        Work Experience
+                      </h4>
+                      <div id="previewWorkExperience">
+                        <div class="experience-item mb-3">
+                          <h5>June 2024 - Present</h5>
+                          <h5>
+                            Part-time Sales Associate, ABC Clothing Store,
+                            Anytown, USA
+                          </h5>
+                          <p>
+                            Assist customers in selecting and purchasing
+                            merchandise, providing exceptional customer service.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="activities-section mb-4">
+                      <h4
+                        class="section-title"
+                        style="background-color: #6d372f"
+                      >
+                        Extracurricular Activities
+                      </h4>
+                      <div id="previewActivities">
+                        <div class="mb-2">
+                          <h5>Robotics Club (2023-2025)</h5>
+                          <p>President, High School Robotics Club</p>
+                        </div>
+                        <div>
+                          <h5>Debate Team (2022-2023)</h5>
+                          <p>Member, XYZ High School Debate Team</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="extraSectionsPreview">
+                      <!-- Extra sections will be added here -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-center">
+            <button id="printBtn" class="btn btn-success me-2">
+              Print Resume
+            </button>
+            <button id="downloadBtn" class="btn btn-info">
+              Download as PDF
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        // Variables for colors
+        let primaryColor = "#B05E54";
+        let secondaryColor = "#6D372F";
+
+        // Profile Image Preview
+        $("#profileImage").change(function () {
+          const file = this.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              $("#previewImage").attr("src", e.target.result);
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+
+        // Color customization
+        $(".primary-colors .color-picker").click(function () {
+          $(".primary-colors .color-picker").removeClass("active");
+          $(this).addClass("active");
+          primaryColor = $(this).data("color");
+          $(".resume-sidebar").css("background-color", primaryColor);
+        });
+
+        $(".secondary-colors .color-picker").click(function () {
+          $(".secondary-colors .color-picker").removeClass("active");
+          $(this).addClass("active");
+          secondaryColor = $(this).data("color");
+          $(".section-title").css("background-color", secondaryColor);
+        });
+
+        // Add Education
+        $("#addEducation").click(function () {
+          const educationItem = `
+          <div class="education-item border-bottom pb-3 mb-3">
+            <div class="form-group">
+              <label>School Name</label>
+              <input type="text" class="form-control education-school" placeholder="e.g. XYZ High School">
+            </div>
+            <div class="form-group">
+              <label>Location</label>
+              <input type="text" class="form-control education-location" placeholder="e.g. Anytown, USA">
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>Start Date</label>
+                <input type="text" class="form-control education-start" placeholder="e.g. September 2021">
+              </div>
+              <div class="form-group col-md-6">
+                <label>End Date</label>
+                <input type="text" class="form-control education-end" placeholder="e.g. June 2025 or Present">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Degree/Diploma</label>
+              <input type="text" class="form-control education-degree" placeholder="e.g. High School Diploma">
+            </div>
+            <button type="button" class="btn btn-sm btn-danger remove-education">Remove</button>
+          </div>
+        `;
+          $("#educationItems").append(educationItem);
+        });
+
+        // Remove Education
+        $(document).on("click", ".remove-education", function () {
+          $(this).parent(".education-item").remove();
+        });
+
+        // Add Work Experience
+        $("#addWorkExp").click(function () {
+          const workExpItem = `
+          <div class="work-exp-item border-bottom pb-3 mb-3">
+            <div class="form-group">
+              <label>Job Title</label>
+              <input type="text" class="form-control work-title" placeholder="e.g. Sales Associate">
+            </div>
+            <div class="form-group">
+              <label>Company/Organization</label>
+              <input type="text" class="form-control work-company" placeholder="e.g. ABC Clothing Store">
+            </div>
+            <div class="form-group">
+              <label>Location</label>
+              <input type="text" class="form-control work-location" placeholder="e.g. Anytown, USA">
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>Start Date</label>
+                <input type="text" class="form-control work-start" placeholder="e.g. June 2024">
+              </div>
+              <div class="form-group col-md-6">
+                <label>End Date</label>
+                <input type="text" class="form-control work-end" placeholder="e.g. Present">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Job Description</label>
+              <textarea class="form-control work-description" rows="3" placeholder="Describe your responsibilities and achievements"></textarea>
+            </div>
+            <button type="button" class="btn btn-sm btn-danger remove-work">Remove</button>
+          </div>
+        `;
+          $("#workExpItems").append(workExpItem);
+        });
+
+        // Remove Work Experience
+        $(document).on("click", ".remove-work", function () {
+          $(this).parent(".work-exp-item").remove();
+        });
+
+        // Add Skill
+        $("#addSkill").click(function () {
+          const skillItem = `
+          <div class="skill-item-form mb-2">
+            <div class="input-group">
+              <input type="text" class="form-control skill-input" placeholder="e.g. Programming Languages: Java, Python, HTML, CSS">
+              <div class="input-group-append">
+                <button class="btn btn-danger remove-skill" type="button">Remove</button>
+              </div>
+            </div>
+          </div>
+        `;
+          $("#skillItems").append(skillItem);
+        });
+
+        // Remove Skill
+        $(document).on("click", ".remove-skill", function () {
+          $(this).closest(".skill-item-form").remove();
+        });
+
+        // Add Extracurricular Activity
+        $("#addActivity").click(function () {
+          const activityItem = `
+          <div class="activity-item border-bottom pb-3 mb-3">
+            <div class="form-group">
+              <label>Activity Name</label>
+              <input type="text" class="form-control activity-name" placeholder="e.g. Robotics Club">
+            </div>
+            <div class="form-group">
+              <label>Role/Position</label>
+              <input type="text" class="form-control activity-role" placeholder="e.g. President">
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>Start Date</label>
+                <input type="text" class="form-control activity-start" placeholder="e.g. 2023">
+              </div>
+              <div class="form-group col-md-6">
+                <label>End Date</label>
+                <input type="text" class="form-control activity-end" placeholder="e.g. 2025">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <textarea class="form-control activity-description" rows="2" placeholder="Describe your responsibilities and achievements"></textarea>
+            </div>
+            <button type="button" class="btn btn-sm btn-danger remove-activity">Remove</button>
+          </div>
+        `;
+          $("#activityItems").append(activityItem);
+        });
+
+        // Remove Extracurricular Activity
+        $(document).on("click", ".remove-activity", function () {
+          $(this).parent(".activity-item").remove();
+        });
+
+        // Add Additional Section
+        $("#addSection").click(function () {
+          const sectionTitle = $("#sectionTitle").val();
+          if (sectionTitle) {
+            const extraSection = `
+            <div class="extra-section border-bottom pb-3 mb-3">
+              <h4 class="section-title" style="background-color: ${secondaryColor};">${sectionTitle}</h4>
+              <div class="form-group">
+                <textarea class="form-control extra-section-content" rows="3" placeholder="Enter content for this section"></textarea>
+              </div>
+              <button type="button" class="btn btn-sm btn-danger remove-extra-section">Remove</button>
+            </div>
+          `;
+            $("#extraSections").append(extraSection);
+            $("#sectionTitle").val("");
+          }
+        });
+
+        // Remove Additional Section
+        $(document).on("click", ".remove-extra-section", function () {
+          $(this).parent(".extra-section").remove();
+        });
+
+        // Update Preview
+        $("#generateBtn").click(function () {
+          // Update Personal Information
+          const firstName = $("#firstName").val();
+          const lastName = $("#lastName").val();
+          const title = $("#title").val();
+          const objective = $("#objective").val();
+          $("#previewName").text(`${firstName} ${lastName}`);
+          $("#previewTitle").text(title);
+          $("#previewObjective").text(objective);
+
+          // Update Contact Information
+          const phone = $("#phone").val();
+          const email = $("#email").val();
+          const address = $("#address").val();
+          const city = $("#city").val();
+          const state = $("#state").val();
+          const zip = $("#zip").val();
+          const linkedin = $("#linkedin").val();
+          const twitter = $("#twitter").val();
+          $("#previewPhone").text(phone);
+          $("#previewEmail").text(email);
+          $("#previewAddress").html(`${address}<br>${city}, ${state} ${zip}`);
+          $("#previewSocial").html(`
+          <a href="https://www.linkedin.com/in/${linkedin}"><i class="fab fa-linkedin fa-lg"></i></a>
+          <a href="https://twitter.com/${twitter}"><i class="fab fa-twitter fa-lg"></i></a>
+        `);
+
+          // Update Education
+          let educationHtml = "";
+          $(".education-item").each(function () {
+            const school = $(this).find(".education-school").val();
+            const location = $(this).find(".education-location").val();
+            const start = $(this).find(".education-start").val();
+            const end = $(this).find(".education-end").val();
+            const degree = $(this).find(".education-degree").val();
+            educationHtml += `
+            <div class="mb-3">
+              <strong>${school}, ${location}</strong><br>
+              ${start} - ${end}<br>
+              ${degree}
+            </div>
+          `;
+          });
+          $("#previewEducation").html(educationHtml);
+
+          // Update Work Experience
+          let workExpHtml = "";
+          $(".work-exp-item").each(function () {
+            const title = $(this).find(".work-title").val();
+            const company = $(this).find(".work-company").val();
+            const location = $(this).find(".work-location").val();
+            const start = $(this).find(".work-start").val();
+            const end = $(this).find(".work-end").val();
+            const description = $(this).find(".work-description").val();
+            workExpHtml += `
+            <div class="experience-item mb-3">
+              <h5>${start} - ${end}</h5>
+              <h5>${title}, ${company}, ${location}</h5>
+              <p>${description}</p>
+            </div>
+          `;
+          });
+          $("#previewWorkExperience").html(workExpHtml);
+
+          // Update Skills
+          let skillsHtml = "";
+          $(".skill-input").each(function () {
+            const skill = $(this).val();
+            skillsHtml += `<li>${skill}</li>`;
+          });
+          $("#previewSkills").html(skillsHtml);
+
+          // Update Extracurricular Activities
+          let activitiesHtml = "";
+          $(".activity-item").each(function () {
+            const name = $(this).find(".activity-name").val();
+            const role = $(this).find(".activity-role").val();
+            const start = $(this).find(".activity-start").val();
+            const end = $(this).find(".activity-end").val();
+            const description = $(this).find(".activity-description").val();
+            activitiesHtml += `
+            <div class="mb-2">
+              <h5>${name} (${start}-${end})</h5>
+              <p>${role}</p>
+              <p>${description}</p>
+            </div>
+          `;
+          });
+          $("#previewActivities").html(activitiesHtml);
+
+          // Update Additional Sections
+          let extraSectionsHtml = "";
+          $(".extra-section").each(function () {
+            const title = $(this).find(".section-title").text();
+            const content = $(this).find(".extra-section-content").val();
+            extraSectionsHtml += `
+            <div class="mb-4">
+              <h4 class="section-title" style="background-color: ${secondaryColor};">${title}</h4>
+              <p>${content}</p>
+            </div>
+          `;
+          });
+          $("#extraSectionsPreview").html(extraSectionsHtml);
+        });
+        // Print Resume
+        $("#printBtn").click(function () {
+          // Hide all elements except the resume preview
+          $("body *").hide(); // Hide everything
+          $("#resumePreview, #resumePreview *").show(); // Show only the resume preview and its children
+
+          // Trigger the print dialog
+          window.print();
+
+          // Restore visibility after printing
+          $("body *").show(); // Show everything again
+        });
+
+        // Download as PDF
+        $("#downloadBtn").click(function () {
+          const element = document.getElementById("resumePreview");
+          html2pdf().from(element).save();
+        });
+      });
+    </script>
+  </body>
+</html>
