@@ -1,0 +1,228 @@
+DATA SCIENCE APP - RESULTS EXPORT
+==================================================
+
+EDA RESULTS
+--------------------------------------------------
+Data Cleaning
+==================================================
+Missing values (before cleaning): 0
+Missing values strategy: mean
+Outlier removal: Enabled (using IQR method)
+
+Outlier Removal
+==================================================
+Removed 757 rows (18.81% of data) as outliers
+
+Dataset Overview
+==================================================
+Number of rows: 3267
+Number of columns: 16
+
+Sample Data (first 5 rows)
+--------------------------------------------------
+    Age   Race Marital Status T Stage  N Stage 6th Stage              differentiate Grade   A Stage  Tumor Size Estrogen Status Progesterone Status  Regional Node Examined  Reginol Node Positive  Survival Months Status
+0  68.0  White        Married       T1      N1       IIA      Poorly differentiated     3  Regional         4.0        Positive            Positive                    24.0                    1.0             60.0  Alive
+1  50.0  White        Married       T2      N2      IIIA  Moderately differentiated     2  Regional        35.0        Positive            Positive                    14.0                    5.0             62.0  Alive
+2  58.0  White       Divorced       T3      N3      IIIC  Moderately differentiated     2  Regional        63.0        Positive            Positive                    14.0                    7.0             75.0  Alive
+3  58.0  White        Married       T1      N1       IIA      Poorly differentiated     3  Regional        18.0        Positive            Positive                     2.0                    1.0             84.0  Alive
+4  47.0  White        Married       T2      N1       IIB      Poorly differentiated     3  Regional        41.0        Positive            Positive                     3.0                    1.0             50.0  Alive
+
+Data Types
+==================================================
+object: 11 columns
+float64: 5 columns
+
+Column Details
+--------------------------------------------------
+Age: float64
+Race: object
+Marital Status: object
+T Stage : object
+N Stage: object
+6th Stage: object
+differentiate: object
+Grade: object
+A Stage: object
+Tumor Size: float64
+Estrogen Status: object
+Progesterone Status: object
+Regional Node Examined: float64
+Reginol Node Positive: float64
+Survival Months: float64
+Status: object
+
+Missing Values
+==================================================
+No missing values found
+
+Numerical Columns Summary
+==================================================
+
+Age:
+  Min: 30.00, Max: 69.00, Range: 39.00
+  Mean: 53.95, Median: 54.00
+  Std Dev: 8.92, IQR: 14.00
+  Skewness: -0.20
+
+Tumor Size:
+  Min: 1.00, Max: 70.00, Range: 69.00
+  Mean: 25.83, Median: 22.00
+  Std Dev: 14.49, IQR: 17.00
+  Skewness: 1.08
+
+Regional Node Examined:
+  Min: 1.00, Max: 34.00, Range: 33.00
+  Mean: 13.03, Median: 13.00
+  Std Dev: 7.11, IQR: 10.00
+  Skewness: 0.36
+
+Reginol Node Positive:
+  Min: 1.00, Max: 8.00, Range: 7.00
+  Mean: 2.41, Median: 2.00
+  Std Dev: 1.81, IQR: 2.00
+  Skewness: 1.38
+
+Survival Months:
+  Min: 6.00, Max: 107.00, Range: 101.00
+  Mean: 72.90, Median: 74.00
+  Std Dev: 21.50, IQR: 33.00
+  Skewness: -0.51
+
+Categorical Columns Summary
+==================================================
+
+Race:
+  Unique values: 3
+  White: 2777 (85.00%)
+  Other: 261 (7.99%)
+  Black: 229 (7.01%)
+
+Marital Status:
+  Unique values: 5
+  Married: 2170 (66.42%)
+  Single : 510 (15.61%)
+  Divorced: 374 (11.45%)
+  Widowed: 183 (5.60%)
+  Separated: 30 (0.92%)
+
+T Stage :
+  Unique values: 4
+  T2: 1495 (45.76%)
+  T1: 1475 (45.15%)
+  T3: 257 (7.87%)
+  T4: 40 (1.22%)
+
+N Stage:
+  Unique values: 3
+  N1: 2590 (79.28%)
+  N2: 656 (20.08%)
+  N3: 21 (0.64%)
+
+6th Stage:
+  Unique values: 5
+  IIA: 1284 (39.30%)
+  IIB: 1108 (33.91%)
+  IIIA: 815 (24.95%)
+  IIIB: 39 (1.19%)
+  IIIC: 21 (0.64%)
+
+differentiate:
+  Unique values: 4
+  Moderately differentiated: 1958 (59.93%)
+  Poorly differentiated: 828 (25.34%)
+  Well differentiated: 471 (14.42%)
+  Undifferentiated: 10 (0.31%)
+
+Grade:
+  Unique values: 4
+  2: 1958 (59.93%)
+  3: 828 (25.34%)
+  1: 471 (14.42%)
+   anaplastic; Grade IV: 10 (0.31%)
+
+A Stage:
+  Unique values: 2
+  Regional: 3245 (99.33%)
+  Distant: 22 (0.67%)
+
+Estrogen Status:
+  Unique values: 2
+  Positive: 3089 (94.55%)
+  Negative: 178 (5.45%)
+
+Progesterone Status:
+  Unique values: 2
+  Positive: 2752 (84.24%)
+  Negative: 515 (15.76%)
+
+Status:
+  Unique values: 2
+  Alive: 2898 (88.71%)
+  Dead: 369 (11.29%)
+
+Key Insights
+==================================================
+No highly correlated numerical features found
+
+Highly skewed features (might need transformation):
+  Tumor Size: 1.08
+  Reginol Node Positive: 1.38
+
+Imbalanced categorical column: Race
+  Dominant class: White (85.00%)
+
+Imbalanced categorical column: A Stage
+  Dominant class: Regional (99.33%)
+
+Imbalanced categorical column: Estrogen Status
+  Dominant class: Positive (94.55%)
+
+Imbalanced categorical column: Progesterone Status
+  Dominant class: Positive (84.24%)
+
+Imbalanced categorical column: Status
+  Dominant class: Alive (88.71%)
+
+
+
+MODEL RESULTS
+--------------------------------------------------
+Model Training: Classification
+==================================================
+Target Column: differentiate
+Number of features: 27
+Training samples: 2613
+Testing samples: 654
+
+Performing hyperparameter tuning for KNN...
+Best parameters: {'n_neighbors': 19, 'p': 1, 'weights': 'distance'}
+
+Model Performance
+{'-'*50}
+Training accuracy: 1.0000
+Testing accuracy: 0.9924
+
+Classification Report
+{'-'*50}
+              precision    recall  f1-score   support
+
+           0       0.99      1.00      0.99       408
+           1       1.00      1.00      1.00       148
+           2       0.00      0.00      0.00         5
+           3       1.00      1.00      1.00        93
+
+    accuracy                           0.99       654
+   macro avg       0.75      0.75      0.75       654
+weighted avg       0.98      0.99      0.99       654
+
+
+Confusion Matrix
+{'-'*50}
+[[408   0   0   0]
+ [  0 148   0   0]
+ [  5   0   0   0]
+ [  0   0   0  93]]
+
+
+
+Exported on: 2025-03-09 13:45:06
