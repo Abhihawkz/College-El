@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resume Builder</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f5f5f5;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .resume-preview {
+        width: 950px;
+        margin: 0 auto;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        display: none;
+      }
+
+      .resume-section {
+        display: flex;
+      }
+
+      .resume-left {
+        width: 35%;
+        color: white;
+        padding: 20px;
+      }
+
+      .resume-right {
+        width: 65%;
+        padding: 20px;
+        background-color: white;
+      }
+
+      .profile-img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        margin: 0 auto;
+        display: block;
+        object-fit: cover;
+        border: 5px solid white;
+      }
+
+      .contact-info {
+        margin-top: 20px;
+        position: relative;
+        padding-left: 30px;
+      }
+
+      .contact-info:before {
+        content: "";
+        position: absolute;
+        left: 10px;
+        top: 0;
+        width: 1px;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.3);
+      }
+
+      .contact-item {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+      }
+
+      .section-title {
+        padding: 8px 15px;
+        margin-bottom: 15px;
+        color: white;
+      }
+
+      .section-content {
+        padding: 0 15px;
+      }
+
+      .skill-item {
+        margin-bottom: 8px;
+      }
+
+      .name-section {
+        padding: 20px;
+      }
+
+      .name {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .title {
+        padding: 8px 15px;
+        margin-bottom: 15px;
+        color: white;
+      }
+
+      .objective {
+        margin-bottom: 20px;
+      }
+
+      .work-item,
+      .education-item,
+      .activity-item {
+        margin-bottom: 15px;
+      }
+
+      .work-title,
+      .education-title,
+      .activity-title {
+        font-weight: bold;
+      }
+
+      .work-date,
+      .education-date,
+      .activity-date {
+        color: #777;
+        font-style: italic;
+      }
+
+      .social-links {
+        margin-top: 15px;
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .form-section {
+        margin-bottom: 30px;
+      }
+
+      #colorPicker {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      .color-picker {
+        display: flex;
+        align-items: center;
+      }
+
+      #preview-btn,
+      #edit-btn,
+      #download-btn,
+      #print-btn {
+        margin-right: 10px;
+      }
+
+      #form-container {
+        margin-bottom: 30px;
+      }
+
+      .dotted-line {
+        border-left: 2px dotted rgba(255, 255, 255, 0.5);
+        height: 100%;
+        position: absolute;
+        left: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="text-center my-4">Resume Builder</h1>
+
+      <div id="colorPicker" class="mb-4">
+        <div class="color-picker">
+          <label for="primaryColor" class="mr-2">Primary Color:</label>
+          <input
+            type="color"
+            id="primaryColor"
+            value="#9D5044"
+            class="form-control"
+          />
+        </div>
+        <div class="color-picker">
+          <label for="secondaryColor" class="mr-2">Secondary Color:</label>
+          <input
+            type="color"
+            id="secondaryColor"
+            value="#6D352A"
+            class="form-control"
+          />
+        </div>
+      </div>
+
+      <div id="form-container">
+        <form id="resumeForm">
+          <div class="form-section">
+            <h3>Personal Information</h3>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="fullName">Full Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="fullName"
+                  placeholder="e.g., Jessica Whitehead"
+                  required
+                />
+              </div>
+              <div class="form-group col-md-6">
+                <label for="jobTitle">Job Title/Status</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="jobTitle"
+                  placeholder="e.g., High School Student"
+                  required
+                />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="phone">Phone</label>
+                <input
+                  type="tel"
+                  class="form-control"
+                  id="phone"
+                  placeholder="e.g., 210-788-8829"
+                />
+              </div>
+              <div class="form-group col-md-6">
+                <label for="email">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  placeholder="e.g., name@companyname.com"
+                />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="address">Address</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="address"
+                  placeholder="e.g., 108 N Platinum Ave, Deming, NY 88030"
+                />
+              </div>
+              <div class="form-group col-md-6">
+                <label for="profileImage">Profile Image</label>
+                <input
+                  type="file"
+                  class="form-control-file"
+                  id="profileImage"
+                  accept="image/*"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="objective">Objective</label>
+              <textarea
+                class="form-control"
+                id="objective"
+                rows="3"
+                placeholder="e.g., Motivated high school student with a passion for computer science..."
+              ></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="socialMedia">Social Media (Twitter/LinkedIn)</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="socialMedia"
+                  placeholder="e.g., @yourusernamehere"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3>Education</h3>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="schoolName">School Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="schoolName"
+                  placeholder="e.g., XYZ High School"
+                />
+              </div>
+              <div class="form-group col-md-6">
+                <label for="schoolLocation">Location</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="schoolLocation"
+                  placeholder="e.g., Anytown, USA"
+                />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="graduationDate">Expected Graduation Date</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="graduationDate"
+                  placeholder="e.g., June 2025"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3>Work Experience</h3>
+            <div id="workExperienceFields">
+              <div class="work-experience-field">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label>Job Title</label>
+                    <input
+                      type="text"
+                      class="form-control job-title"
+                      placeholder="e.g., Part-time Sales Associate"
+                    />
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label>Company</label>
+                    <input
+                      type="text"
+                      class="form-control company"
+                      placeholder="e.g., ABC Clothing Store"
+                    />
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label>Location</label>
+                    <input
+                      type="text"
+                      class="form-control job-location"
+                      placeholder="e.g., Anytown, USA"
+                    />
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label>Date Range</label>
+                    <input
+                      type="text"
+                      class="form-control date-range"
+                      placeholder="e.g., June 2024 - Present"
+                    />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Description</label>
+                  <textarea
+                    class="form-control job-description"
+                    rows="2"
+                    placeholder="e.g., Assist customers in selecting..."
+                  ></textarea>
+                </div>
+                <hr />
+              </div>
+            </div>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              id="addWorkExperience"
+            >
+              Add More Work Experience
+            </button>
+          </div>
+
+          <div class="form-section">
+            <h3>Skills</h3>
+            <div id="skillsFields">
+              <div class="skills-field">
+                <div class="form-group">
+                  <label>Skill</label>
+                  <input
+                    type="text"
+                    class="form-control skill"
+                    placeholder="e.g., Programming Languages: Java, Python, HTML, CSS"
+                  />
+                </div>
+              </div>
+            </div>
+            <button type="button" class="btn btn-secondary" id="addSkill">
+              Add More Skills
+            </button>
+          </div>
+
+          <div class="form-section">
+            <h3>Extracurricular Activities</h3>
+            <div id="activitiesFields">
+              <div class="activities-field">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label>Activity Name</label>
+                    <input
+                      type="text"
+                      class="form-control activity-name"
+                      placeholder="e.g., Robotics Club"
+                    />
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label>Date Range</label>
+                    <input
+                      type="text"
+                      class="form-control activity-date"
+                      placeholder="e.g., 2023-2025"
+                    />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Role/Description</label>
+                  <input
+                    type="text"
+                    class="form-control activity-role"
+                    placeholder="e.g., President, High School Robotics Club"
+                  />
+                </div>
+                <hr />
+              </div>
+            </div>
+            <button type="button" class="btn btn-secondary" id="addActivity">
+              Add More Activities
+            </button>
+          </div>
+
+          <div class="form-group text-center">
+            <button type="button" class="btn btn-primary" id="preview-btn">
+              Preview Resume
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div id="preview-container" style="display: none">
+        <div class="d-flex justify-content-center mb-4">
+          <button type="button" class="btn btn-secondary" id="edit-btn">
+            Edit Resume
+          </button>
+          <button type="button" class="btn btn-success" id="download-btn">
+            Download PDF
+          </button>
+          <button type="button" class="btn btn-info" id="print-btn">
+            Print Resume
+          </button>
+        </div>
+
+        <div class="resume-preview" id="resume-preview">
+          <div class="resume-section">
+            <div class="resume-left">
+              <div class="text-center">
+                <img
+                  id="preview-image"
+                  src="/api/placeholder/150/150"
+                  alt="Profile"
+                  class="profile-img"
+                />
+              </div>
+
+              <div class="contact-info">
+                <div class="contact-item">
+                  <span id="preview-phone"></span>
+                </div>
+                <div class="contact-item">
+                  <span id="preview-email"></span>
+                </div>
+                <div class="contact-item">
+                  <span id="preview-address"></span>
+                </div>
+              </div>
+
+              <div class="mt-4">
+                <div class="section-title">Education</div>
+                <div class="section-content">
+                  <div id="preview-education"></div>
+                </div>
+              </div>
+
+              <div class="mt-4">
+                <div class="section-title">Personal Skills</div>
+                <div class="section-content">
+                  <ul id="preview-skills" class="pl-3"></ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="resume-right">
+              <div class="name-section">
+                <div class="name" id="preview-name"></div>
+                <div class="title" id="preview-title"></div>
+              </div>
+
+              <div class="objective">
+                <h5>Objective:</h5>
+                <p id="preview-objective"></p>
+              </div>
+
+              <div class="work-experience">
+                <div class="title">Work Experience</div>
+                <div id="preview-work-experience"></div>
+              </div>
+
+              <div class="activities mt-4">
+                <div class="title">Extracurricular Activities</div>
+                <div id="preview-activities"></div>
+              </div>
+
+              <div class="social-links">
+                <div id="preview-social"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        // Add more work experience fields
+        $("#addWorkExperience").click(function () {
+          const workField = `
+                    <div class="work-experience-field">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Job Title</label>
+                                <input type="text" class="form-control job-title" placeholder="e.g., Part-time Sales Associate">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Company</label>
+                                <input type="text" class="form-control company" placeholder="e.g., ABC Clothing Store">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Location</label>
+                                <input type="text" class="form-control job-location" placeholder="e.g., Anytown, USA">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Date Range</label>
+                                <input type="text" class="form-control date-range" placeholder="e.g., June 2024 - Present">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea class="form-control job-description" rows="2" placeholder="e.g., Assist customers in selecting..."></textarea>
+                        </div>
+                        <button type="button" class="btn btn-danger btn-sm remove-field mb-3">Remove</button>
+                        <hr>
+                    </div>
+                `;
+          $("#workExperienceFields").append(workField);
+        });
+
+        // Add more skills fields
+        $("#addSkill").click(function () {
+          const skillField = `
+                    <div class="skills-field">
+                        <div class="form-group">
+                            <label>Skill</label>
+                            <input type="text" class="form-control skill" placeholder="e.g., Programming Languages: Java, Python, HTML, CSS">
+                        </div>
+                        <button type="button" class="btn btn-danger btn-sm remove-field mb-3">Remove</button>
+                    </div>
+                `;
+          $("#skillsFields").append(skillField);
+        });
+
+        // Add more activities fields
+        $("#addActivity").click(function () {
+          const activityField = `
+                    <div class="activities-field">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Activity Name</label>
+                                <input type="text" class="form-control activity-name" placeholder="e.g., Robotics Club">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Date Range</label>
+                                <input type="text" class="form-control activity-date" placeholder="e.g., 2023-2025">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Role/Description</label>
+                            <input type="text" class="form-control activity-role" placeholder="e.g., President, High School Robotics Club">
+                        </div>
+                        <button type="button" class="btn btn-danger btn-sm remove-field mb-3">Remove</button>
+                        <hr>
+                    </div>
+                `;
+          $("#activitiesFields").append(activityField);
+        });
+
+        // Remove field functionality
+        $(document).on("click", ".remove-field", function () {
+          $(this)
+            .closest(".work-experience-field, .skills-field, .activities-field")
+            .remove();
+        });
+
+        // Handle profile image upload
+        $("#profileImage").change(function (e) {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              $("#preview-image").attr("src", e.target.result);
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+
+        // Update resume colors
+        function updateColors() {
+          const primaryColor = $("#primaryColor").val();
+          const secondaryColor = $("#secondaryColor").val();
+
+          $(".resume-left").css("background-color", primaryColor);
+          $(".section-title, .title").css("background-color", secondaryColor);
+        }
+
+        $("#primaryColor, #secondaryColor").change(updateColors);
+
+        // Toggle between form and preview
+        $("#preview-btn").click(function () {
+          // Validate form
+          if (!$("#fullName").val()) {
+            alert("Please enter your full name at minimum");
+            return;
+          }
+
+          // Update preview with form data
+          updatePreview();
+
+          // Show preview
+          $("#form-container").hide();
+          $("#preview-container").show();
+          $(".resume-preview").show();
+
+          // Update colors
+          updateColors();
+        });
+
+        $("#edit-btn").click(function () {
+          $("#preview-container").hide();
+          $("#form-container").show();
+        });
+
+        // Update preview with form data
+        function updatePreview() {
+          // Personal info
+          $("#preview-name").text($("#fullName").val());
+          $("#preview-title").text($("#jobTitle").val());
+          $("#preview-phone").text($("#phone").val());
+          $("#preview-email").text($("#email").val());
+          $("#preview-address").text($("#address").val());
+          $("#preview-objective").text($("#objective").val());
+          $("#preview-social").html(
+            `<i class="fa fa-linkedin"></i> <i class="fa fa-twitter"></i> ${$(
+              "#socialMedia"
+            ).val()}`
+          );
+
+          // Education
+          const educationHTML = `
+                    <div>
+                        <div>${$("#schoolName").val()}, ${$(
+            "#schoolLocation"
+          ).val()}</div>
+                        <div>Expected Graduation Year: ${$(
+                          "#graduationDate"
+                        ).val()}</div>
+                    </div>
+                `;
+          $("#preview-education").html(educationHTML);
+
+          // Skills
+          let skillsHTML = "";
+          $(".skill").each(function () {
+            if ($(this).val()) {
+              skillsHTML += `<li class="skill-item">${$(this).val()}</li>`;
+            }
+          });
+          $("#preview-skills").html(skillsHTML);
+
+          // Work Experience
+          let workHTML = "";
+          $(".work-experience-field").each(function () {
+            const jobTitle = $(this).find(".job-title").val();
+            const company = $(this).find(".company").val();
+            const location = $(this).find(".job-location").val();
+            const dateRange = $(this).find(".date-range").val();
+            const description = $(this).find(".job-description").val();
+
+            if (jobTitle || company) {
+              workHTML += `
+                            <div class="work-item">
+                                <div class="work-date">${dateRange}</div>
+                                <div class="work-title">${jobTitle}, ${company}, ${location}</div>
+                                <div class="work-description">${description}</div>
+                            </div>
+                        `;
+            }
+          });
+          $("#preview-work-experience").html(workHTML);
+
+          // Activities
+          let activitiesHTML = "";
+          $(".activities-field").each(function () {
+            const activityName = $(this).find(".activity-name").val();
+            const activityDate = $(this).find(".activity-date").val();
+            const activityRole = $(this).find(".activity-role").val();
+
+            if (activityName) {
+              activitiesHTML += `
+                            <div class="activity-item">
+                                <div class="activity-title">• ${activityName} (${activityDate})</div>
+                                <div class="activity-role">${activityRole}</div>
+                            </div>
+                        `;
+            }
+          });
+          $("#preview-activities").html(activitiesHTML);
+        }
+
+        // Download PDF
+        $("#download-btn").click(function () {
+          const element = document.getElementById("resume-preview");
+          const opt = {
+            margin: 0,
+            filename: "resume.pdf",
+            image: { type: "jpeg", quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+          };
+
+          html2pdf().set(opt).from(element).save();
+        });
+
+        // Print Resume
+        $("#print-btn").click(function () {
+          const printContents =
+            document.getElementById("resume-preview").innerHTML;
+          const originalContents = document.body.innerHTML;
+          document.body.innerHTML = printContents;
+          window.print();
+          document.body.innerHTML = originalContents;
+          location.reload();
+        });
+
+        // Initialize with sample data
+        $("#fullName").val("Jessica Whitehead");
+        $("#jobTitle").val("High School Student");
+        $("#phone").val("210-788-8829");
+        $("#email").val("name@companyname.com");
+        $("#address").val("108 N Platinum Ave, Deming, NY 88030");
+        $("#objective").val(
+          "Motivated high school student with a passion for computer science seeking an internship opportunity to further develop technical skills and contribute to a dynamic team."
+        );
+        $("#schoolName").val("XYZ High School");
+        $("#schoolLocation").val("Anytown, USA");
+        $("#graduationDate").val("June 2025");
+        $("#socialMedia").val("@yourusernamehere");
+
+        // Add initial skills
+        $(".skill")
+          .first()
+          .val("Programming Languages: Java, Python, HTML, CSS");
+        $("#addSkill").click();
+        $(".skill")
+          .last()
+          .val("Software: Microsoft Office Suite (Word, Excel, PowerPoint)");
+        $("#addSkill").click();
+        $(".skill").last().val("Strong problem-solving and analytical skills");
+        $("#addSkill").click();
+        $(".skill")
+          .last()
+          .val("Excellent communication and teamwork abilities");
+        $("#addSkill").click();
+        $(".skill").last().val("Attention to detail");
+
+        // Add initial work experience
+        $(".job-title").val("Part-time Sales Associate");
+        $(".company").val("ABC Clothing Store");
+        $(".job-location").val("Anytown, USA");
+        $(".date-range").val("June 2024 - Present");
+        $(".job-description").val(
+          "Assist customers in selecting and purchasing merchandise, providing exceptional customer service."
+        );
+
+        // Add initial activities
+        $(".activity-name").val("Robotics Club");
+        $(".activity-date").val("2023-2025");
+        $(".activity-role").val("President, High School Robotics Club");
+        $("#addActivity").click();
+        $(".activities-field").last().find(".activity-name").val("Debate Team");
+        $(".activities-field").last().find(".activity-date").val("2022-2023");
+        $(".activities-field")
+          .last()
+          .find(".activity-role")
+          .val("Member, XYZ High School Debate Team");
+      });
+    </script>
+  </body>
+</html>
